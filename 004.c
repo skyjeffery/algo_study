@@ -1,48 +1,46 @@
-#include<stdio.h>
-#include<math.h>
-int main(void) {
-	//找最大值
-	int a, max, i=2;
-	if (scanf_s("%d", &a) != 1) { puts("输入错误。"); return 1; }
-	max = a;//变量一定先赋初值
-	do {
-		if (scanf_s("%d", &a) != 1) { puts("输入错误。"); return 1; }
-		if (max < a) { max = a; }
-		i++;
-	} while (i <= 5);//执行4次
-	printf("The max value is %d\n", max);
+/*动态分配数组*/
+#include <stdio.h>
+#include <stdlib.h>  //为malloc() 、free()提供原型
 
-	//穷举法
-	int x, y, z;
-	for (x = 0; x < 20; x++) {
-		for (y = 0; y < 34; y++) {
-			z = 100 - x - y;
-			if (5 * x + 3 * y + z / 3.0 == 100) {
-				printf("x=%d,y=%d,z=%d\n", x, y, z);
-			}
-		}
+int main(void)
+{
+	double* ptd;
+	int max, number;
+	int i = 0;
+
+	puts("What is the maximum number of type double entries?\n");
+	if (scanf_s("%d", &max) != 1)
+	{
+		puts("Numbers not correctly entered.\n");
+		exit(EXIT_FAILURE);
 	}
-
-	//计算阶乘的和
-	long sum = 0,t = 1;
-	for (int z = 1; z < 10; z++) {
-		t *= (long)z;
-		sum += t;
+	else
+		puts("Great!\n");
+	/*ptd指向有max个元素的动态数组*/
+	ptd = (double*)malloc(max * sizeof(double));
+	//返回数组起始元素的地址
+	if (ptd == NULL)
+	{
+		puts("Memory allocation failed.\n");
+		exit(EXIT_FAILURE);
 	}
-	printf("1!+2!+3!+...+10!=%ld", sum);
-	
-
-	//牛顿迭代法求解非线性方程
-	double x1, x2, f1, f2;
-	x2 = 2.5;
-	do {
-		x1 = x2;
-		f1 = 3 * x1 * x1 * x1 - 9 * x1 * x1 + 4 * x1 - 12;
-		f2 = 9 * x1 * x1 - 18 * x1 + 4;
-		x2 = x1 - f1 / f2;
-	} while (fabs(x2 - x1) >= 1e-5);
-	printf("The root is %.2lf.", x2);
+	puts("Enter the values(q to quit).\n");
+	while (i < max && scanf_s("%lf", &ptd[i]) == 1)
+		++i;
+	printf("Here are your %d entries.\n", number = i);
+	//定义number
+	for (i = 0; i <number; i++)
+	{
+		printf("%6.2f", ptd[i]);
+		if (i % 7 == 6)
+			putchar('\n');
+	}
+	if (i % 7 != 0)
+		putchar('\n');
+	puts("Done!");
+	free(ptd);
 
 	return 0;
 }
+
 
